@@ -5,19 +5,19 @@ const jwt = require("jsonwebtoken");
 // Signup
 exports.signup = async (req, res) => {
   try {
-    const {
-      fullName,
-      email,
-      phone,
-      qualification,
-      university,
-      location,
-      targetJobRole,
-      password,
-    } = req.body;
+   const {
+  fullname,
+  email,
+  phonenumber,
+  qualification,
+  universityname,
+  location,
+  targetedjob,
+  password,
+} = req.body;
 
     // Check Existing User
-    const existingUser = await User.findOne({
+    const existingUser = await Users.findOne({
       email,
     });
 
@@ -33,16 +33,16 @@ exports.signup = async (req, res) => {
       await bcrypt.hash(password, 10);
 
     // Create User
-    const user = await User.create({
-      fullName,
-      email,
-      phone,
-      qualification,
-      university,
-      location,
-      targetJobRole,
-      password: hashedPassword,
-    });
+   const user = await User.create({
+  fullname,
+  email,
+  phonenumber,
+  qualification,
+  universityname,
+  location,
+  targetedjob,
+  password: hashedPassword,
+});
 
     // JWT Token
     const token = jwt.sign(
@@ -84,7 +84,7 @@ exports.login = async (req, res) => {
     const { email, password } =
       req.body;
 
-    const user = await User.findOne({
+    const user = await Users.findOne({
       email,
     });
 
@@ -99,7 +99,7 @@ exports.login = async (req, res) => {
     const isMatch =
       await bcrypt.compare(
         password,
-        user.password
+        users.password
       );
 
     if (!isMatch) {
@@ -112,7 +112,7 @@ exports.login = async (req, res) => {
     // JWT
     const token = jwt.sign(
       {
-        id: user._id,
+        id: users._id,
       },
       process.env.JWT_SECRET,
       {
@@ -131,7 +131,7 @@ exports.login = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Login successful",
-      user,
+      users,
     });
   } catch (error) {
     res.status(500).json({
