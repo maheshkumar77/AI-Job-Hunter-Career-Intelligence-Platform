@@ -2,18 +2,21 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    fullName: {
+    fullname: {
       type: String,
       required: true,
+      trim: true,
     },
 
     email: {
       type: String,
       required: true,
       unique: true,
+      trim: true,
+      lowercase: true,
     },
 
-    phone: {
+    phonenumber: {
       type: String,
       required: true,
     },
@@ -23,7 +26,7 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    university: {
+    universityname: {
       type: String,
       required: true,
     },
@@ -33,7 +36,7 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    targetJobRole: {
+    targetedjob: {
       type: String,
       required: true,
     },
@@ -41,6 +44,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      minlength: 6,
     },
   },
   {
@@ -48,4 +52,9 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("User", userSchema);
+const Users = mongoose.model(
+  "Users",
+  userSchema
+);
+
+module.exports = Users;
